@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Backend.Models;
+using Domain;
 
-namespace Backend.Interfaces
+namespace Repository.Interfaces
 {
     public interface IGuiaRepository
     {

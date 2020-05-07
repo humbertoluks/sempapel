@@ -1,14 +1,18 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace backend.Migrations
+namespace Repository.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initialcreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "AtendimentoSemPapel");
+
             migrationBuilder.CreateTable(
                 name: "GuiaStatus",
+                schema: "AtendimentoSemPapel",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -22,6 +26,7 @@ namespace backend.Migrations
 
             migrationBuilder.CreateTable(
                 name: "GuiaStatusCheckIns",
+                schema: "AtendimentoSemPapel",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -35,6 +40,7 @@ namespace backend.Migrations
 
             migrationBuilder.CreateTable(
                 name: "GuiaTipos",
+                schema: "AtendimentoSemPapel",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -48,6 +54,7 @@ namespace backend.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Users",
+                schema: "AtendimentoSemPapel",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -63,23 +70,25 @@ namespace backend.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Guias",
+                schema: "AtendimentoSemPapel",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PrestadorId = table.Column<string>(nullable: true),
-                    UnidadeId = table.Column<string>(nullable: true),
+                    PrestadorId = table.Column<string>(nullable: false),
+                    UnidadeId = table.Column<int>(nullable: true),
                     PushId = table.Column<string>(nullable: true),
                     TokenId = table.Column<string>(nullable: true),
-                    Numero = table.Column<string>(nullable: true),
-                    Beneficiario = table.Column<string>(nullable: true),
-                    BeneficiarioCartao = table.Column<string>(nullable: true),
-                    Valor = table.Column<decimal>(nullable: false),
+                    Numero = table.Column<string>(nullable: false),
+                    Beneficiario = table.Column<string>(nullable: false),
+                    BeneficiarioCartao = table.Column<string>(nullable: false),
+                    Valor = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Data = table.Column<DateTime>(nullable: false),
                     GuiaXML = table.Column<string>(nullable: true),
                     GuiaStatusId = table.Column<int>(nullable: false),
                     GuiaTipoId = table.Column<int>(nullable: false),
-                    StatusCheckInId = table.Column<int>(nullable: false)
+                    StatusCheckInId = table.Column<int>(nullable: false),
+                    IdGuiaExterno = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -87,18 +96,21 @@ namespace backend.Migrations
                     table.ForeignKey(
                         name: "FK_Guias_GuiaStatus_GuiaStatusId",
                         column: x => x.GuiaStatusId,
+                        principalSchema: "AtendimentoSemPapel",
                         principalTable: "GuiaStatus",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Guias_GuiaTipos_GuiaTipoId",
                         column: x => x.GuiaTipoId,
+                        principalSchema: "AtendimentoSemPapel",
                         principalTable: "GuiaTipos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Guias_GuiaStatusCheckIns_StatusCheckInId",
                         column: x => x.StatusCheckInId,
+                        principalSchema: "AtendimentoSemPapel",
                         principalTable: "GuiaStatusCheckIns",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -106,16 +118,19 @@ namespace backend.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Guias_GuiaStatusId",
+                schema: "AtendimentoSemPapel",
                 table: "Guias",
                 column: "GuiaStatusId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Guias_GuiaTipoId",
+                schema: "AtendimentoSemPapel",
                 table: "Guias",
                 column: "GuiaTipoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Guias_StatusCheckInId",
+                schema: "AtendimentoSemPapel",
                 table: "Guias",
                 column: "StatusCheckInId");
         }
@@ -123,19 +138,24 @@ namespace backend.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Guias");
+                name: "Guias",
+                schema: "AtendimentoSemPapel");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Users",
+                schema: "AtendimentoSemPapel");
 
             migrationBuilder.DropTable(
-                name: "GuiaStatus");
+                name: "GuiaStatus",
+                schema: "AtendimentoSemPapel");
 
             migrationBuilder.DropTable(
-                name: "GuiaTipos");
+                name: "GuiaTipos",
+                schema: "AtendimentoSemPapel");
 
             migrationBuilder.DropTable(
-                name: "GuiaStatusCheckIns");
+                name: "GuiaStatusCheckIns",
+                schema: "AtendimentoSemPapel");
         }
     }
 }

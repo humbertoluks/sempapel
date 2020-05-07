@@ -1,4 +1,4 @@
-namespace Backend.Interfaces
+namespace Repository.Interfaces
 {
     public interface IUnitOfWork
     {

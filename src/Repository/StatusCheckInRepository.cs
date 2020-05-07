@@ -1,9 +1,10 @@
+using Repository.Data;
+using Domain;
 using System.Collections.Generic;
 using System.Linq;
-using Backend.Data;
-using Backend.Models;
 
-namespace Backend.Repositories
+
+namespace Repository
 {
     public class StatusCheckInRepository
     {

@@ -1,6 +1,6 @@
-namespace Backend.Models
+namespace Domain
 {
-    public class GuiaStatus
+    public class StatusCheckIn
     {
         public int Id { get; set; }
         public string Descricao { get; set; }

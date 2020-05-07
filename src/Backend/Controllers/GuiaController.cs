@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Backend.Interfaces;
-using Backend.Models;
+using Domain;
+using Repository.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +16,7 @@ namespace Backend.Controllers
         [HttpPost]
         [Route("")]
         [Authorize]
-        public Guia Post(
+        public IActionResult Post(
             [FromServices] IGuiaRepository guiaRepository,
             [FromServices] IUnitOfWork uow,
             Guia guia){
@@ -27,12 +26,12 @@ namespace Backend.Controllers
                 guiaRepository.Save(guia);
                 uow.Commit();
 
-                return guia;
+                return this.StatusCode(StatusCodes.Status201Created);
             }
             catch (System.Exception ex)
             {
                 uow.Rollback();
-                throw new Exception (ex.Message.ToString());
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha no banco de dados, detalhes: "+ ex);
             }
         }
 

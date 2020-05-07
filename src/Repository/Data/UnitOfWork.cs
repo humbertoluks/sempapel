@@ -1,7 +1,6 @@
-using Backend.Data;
-using Backend.Interfaces;
+using Repository.Interfaces;
 
-namespace Backend.Data
+namespace Repository.Data
 {
     public class UnitOfWork : IUnitOfWork
     {

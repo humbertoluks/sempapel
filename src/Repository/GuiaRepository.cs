@@ -1,12 +1,12 @@
-using Backend.Data;
-using Backend.Interfaces;
-using Backend.Models;
+using Repository.Data;
+using Repository.Interfaces;
+using Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Backend.Repositories
+namespace Repository
 {
     public class GuiaRepository : IGuiaRepository
     {
@@ -17,9 +17,9 @@ namespace Backend.Repositories
             _context = context;
         }
         public void Save(Guia guia){
-            guia.GuiaStatus = _context.GuiaStatus.First(x => x.Id == guia.GuiaStatusId);  
-            guia.GuiaTipo = _context.GuiaTipos.First(x => x.Id == guia.GuiaTipoId);  
-            guia.StatusCheckIn = _context.GuiaStatusCheckIns.First(x => x.Id == guia.StatusCheckInId);  
+            // guia.GuiaStatus = _context.GuiaStatus.AsNoTracking().First(x => x.Id == guia.GuiaStatusId);  
+            // guia.GuiaTipo = _context.GuiaTipos.AsNoTracking().First(x => x.Id == guia.GuiaTipoId);  
+            // guia.StatusCheckIn = _context.GuiaStatusCheckIns.AsNoTracking().First(x => x.Id == guia.StatusCheckInId);  
             
             _context.Guias.Add(guia);
         }

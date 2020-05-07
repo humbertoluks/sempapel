@@ -1,13 +1,13 @@
 using System;
 
-namespace Backend.Models
+namespace Domain
 {
     public class Guia 
     {
         // [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string PrestadorId { get; set; }
-        public string UnidadeId { get; set; }
+        public int UnidadeId { get; set; }
         public string PushId { get; set; }
         public string TokenId { get; set; }
         public string Numero { get; set; }
@@ -22,5 +22,6 @@ namespace Backend.Models
         public GuiaTipo GuiaTipo { get; set; }
         public int StatusCheckInId { get; set; }
         public StatusCheckIn StatusCheckIn { get; set; }
+        public int IdGuiaExterno{ get; set; }
     }
 }

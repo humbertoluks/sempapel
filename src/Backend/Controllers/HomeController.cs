@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using Backend.Models;
-using Backend.Repositories;
+using Domain;
+using Repository;
 using Backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
