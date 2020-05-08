@@ -7,7 +7,7 @@ namespace Repository.Interfaces
     public interface IGuiaRepository
     {
         void Save(Guia guia);
-        Task<List<Guia>> GetAsync();
+        Task<IEnumerable<Guia>> GetAsync();
         Task<Guia> GetAsync(int id);
     }
 }

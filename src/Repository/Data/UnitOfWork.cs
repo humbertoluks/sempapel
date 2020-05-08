@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Repository.Interfaces;
 
 namespace Repository.Data
@@ -14,6 +15,9 @@ namespace Repository.Data
             _context.SaveChanges();
         }
 
+        public async Task CommitAsync(){
+           await _context.SaveChangesAsync();
+        }
         public void Rollback(){}
     }
 }

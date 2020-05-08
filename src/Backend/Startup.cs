@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using AutoMapper;
 
 namespace Backend
 {
@@ -25,6 +26,7 @@ namespace Backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddCors();
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
@@ -51,9 +53,10 @@ namespace Backend
 
             //services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("database"));
             services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("database")));
-
             services.AddTransient<IGuiaRepository, GuiaRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+            services.AddAutoMapper();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

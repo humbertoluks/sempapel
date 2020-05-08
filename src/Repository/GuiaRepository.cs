@@ -24,7 +24,7 @@ namespace Repository
             _context.Guias.Add(guia);
         }
 
-        public async Task<List<Guia>> GetAsync()
+        public async Task<IEnumerable<Guia>> GetAsync()
         {
             return await _context.Guias
                 .AsNoTracking()

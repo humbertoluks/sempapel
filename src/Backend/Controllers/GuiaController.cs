@@ -5,7 +5,10 @@ using Repository.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using AutoMapper;
+using System.Collections;
+using Backend.Dtos;
+using System.Collections.Generic;
 
 namespace Backend.Controllers
 {
@@ -13,53 +16,72 @@ namespace Backend.Controllers
     [Route("v1/guias")]
     public class GuiaController : ControllerBase
     {
+        private readonly IGuiaRepository _guiaRepository;
+        private readonly IUnitOfWork _uow;
+        private readonly IMapper _mapper;
+
+        public GuiaController([FromServices] IGuiaRepository guiaRepository, 
+            [FromServices] IUnitOfWork uow,
+            IMapper mapper)
+        {
+            this._guiaRepository = guiaRepository;
+            this._uow = uow;
+            this._mapper = mapper;
+        }
+
         [HttpPost]
         [Route("")]
         [Authorize]
-        public IActionResult Post(
-            [FromServices] IGuiaRepository guiaRepository,
-            [FromServices] IUnitOfWork uow,
-            Guia guia){
+        public async Task<IActionResult> Post(Guia guia){
             
             try
             {
-                guiaRepository.Save(guia);
-                uow.Commit();
+                _guiaRepository.Save(guia);
+                await _uow.CommitAsync();
 
-                return this.StatusCode(StatusCodes.Status201Created);
+                var result = _mapper.Map<GuiaDto>(guia);
+
+                return Created($"/v1/guias/{result.Id}", result);                
             }
             catch (System.Exception ex)
             {
-                uow.Rollback();
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha no banco de dados, detalhes: "+ ex);
+                _uow.Rollback();
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Falha no banco de dados, detalhes : {ex.Message}");
             }
+
+            return BadRequest();
         }
 
         [HttpGet]
         [Route("")]
         [Authorize]
-        public async Task<IActionResult> Get([FromServices] IGuiaRepository guiaRepository)
+        public async Task<IActionResult> Get()
         {
             try
             {
-                var results = await guiaRepository.GetAsync();
-                return base.Ok(results); 
+                var guias = await _guiaRepository.GetAsync();
+                //var results = _mapper.Map<IEnumerable<GuiaDto>>(guias);
+
+                return base.Ok(guias); 
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha no banco de dados");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Falha no banco de dados, detalhes : {ex.Message}");
             }
         }
 
         [HttpGet("{id}")]
         [Route("")]
         [Authorize]
-        public async Task<IActionResult> Get([FromServices] IGuiaRepository guiaRepository, int id)
+        public async Task<IActionResult> Get(int id)
         {
             try
             {
-                var results = await guiaRepository.GetAsync(id);
-                return base.Ok(results); 
+                var guia = await _guiaRepository.GetAsync(id);
+
+                var result = _mapper.Map<GuiaDto>(guia);
+
+                return base.Ok(result); 
             }
             catch (System.Exception)
             {

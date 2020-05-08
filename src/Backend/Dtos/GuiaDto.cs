@@ -1,13 +1,12 @@
 using System;
 
-namespace Domain
+namespace Backend.Dtos
 {
-    public class Guia 
+    public class GuiaDto 
     {
-        // [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string PrestadorId { get; set; }
-        public int? UnidadeId { get; set; }
+        public int UnidadeId { get; set; }
         public string PushId { get; set; }
         public string TokenId { get; set; }
         public string Numero { get; set; }
@@ -16,12 +15,9 @@ namespace Domain
         public decimal Valor { get; set; }
         public DateTime Data { get; set; }
         public string GuiaXML { get; set; }
-        public int GuiaStatusId { get; set; }
-        public GuiaStatus GuiaStatus { get; set; }
-        public int GuiaTipoId { get; set; }
-        public GuiaTipo GuiaTipo { get; set; }
-        public int StatusCheckInId { get; set; }
-        public StatusCheckIn StatusCheckIn { get; set; }
+        public GuiaStatusDto GuiaStatus { get; set; }
+        public GuiaTipoDto GuiaTipo { get; set; }
+        public StatusCheckInDto StatusCheckIn { get; set; }
         public int IdGuiaExterno{ get; set; }
     }
 }
