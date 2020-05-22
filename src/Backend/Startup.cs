@@ -22,8 +22,6 @@ namespace Backend
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -51,7 +49,6 @@ namespace Backend
                 };
             });
 
-            //services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("database"));
             services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("database")));
             services.AddTransient<IGuiaRepository, GuiaRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();

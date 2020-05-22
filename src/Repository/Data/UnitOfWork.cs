@@ -15,8 +15,8 @@ namespace Repository.Data
             _context.SaveChanges();
         }
 
-        public async Task CommitAsync(){
-           await _context.SaveChangesAsync();
+        public async Task<int> CommitAsync(){
+           return await _context.SaveChangesAsync();
         }
         public void Rollback(){}
     }

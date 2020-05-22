@@ -13,6 +13,5 @@ namespace Backend.Helpers
             CreateMap<GuiaTipo, GuiaTipoDto>();
             CreateMap<StatusCheckIn, StatusCheckInDto>();
         }
-        
     }
 }

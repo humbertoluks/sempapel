@@ -1,14 +1,12 @@
-using System;
-using System.Threading.Tasks;
-using Domain;
-using Repository.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
-using System.Collections;
+using Repository.Interfaces;
+using System.Threading.Tasks;
+
 using Backend.Dtos;
-using System.Collections.Generic;
+using Domain;
 
 namespace Backend.Controllers
 {
@@ -37,19 +35,15 @@ namespace Backend.Controllers
             try
             {
                 _guiaRepository.Save(guia);
+                
                 await _uow.CommitAsync();
-
-                var result = _mapper.Map<GuiaDto>(guia);
-
-                return Created($"/v1/guias/{result.Id}", result);                
+                return Created($"/v1/guias/{guia.Id}", _mapper.Map<GuiaDto>(guia));                
             }
             catch (System.Exception ex)
             {
                 _uow.Rollback();
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Falha no banco de dados, detalhes : {ex.Message}");
             }
-
-            return BadRequest();
         }
 
         [HttpGet]
@@ -60,9 +54,10 @@ namespace Backend.Controllers
             try
             {
                 var guias = await _guiaRepository.GetAsync();
-                //var results = _mapper.Map<IEnumerable<GuiaDto>>(guias);
+                var results = _mapper.Map<GuiaDto[]>(guias);
 
-                return base.Ok(guias); 
+                //return base.Ok(); 
+                return Ok(results);
             }
             catch (System.Exception ex)
             {

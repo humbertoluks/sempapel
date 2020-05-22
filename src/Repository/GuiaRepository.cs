@@ -3,8 +3,8 @@ using Repository.Interfaces;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Repository
 {
@@ -17,10 +17,6 @@ namespace Repository
             _context = context;
         }
         public void Save(Guia guia){
-            // guia.GuiaStatus = _context.GuiaStatus.AsNoTracking().First(x => x.Id == guia.GuiaStatusId);  
-            // guia.GuiaTipo = _context.GuiaTipos.AsNoTracking().First(x => x.Id == guia.GuiaTipoId);  
-            // guia.StatusCheckIn = _context.GuiaStatusCheckIns.AsNoTracking().First(x => x.Id == guia.StatusCheckInId);  
-            
             _context.Guias.Add(guia);
         }
 
@@ -31,6 +27,7 @@ namespace Repository
                 .Include(m => m.GuiaStatus)
                 .Include(m => m.GuiaTipo)
                 .Include(m => m.StatusCheckIn)
+                .OrderByDescending(o => o.Data).Take(100)
                 .ToListAsync();
         }
 
