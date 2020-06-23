@@ -2,11 +2,11 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Repository.Interfaces;
 using System.Threading.Tasks;
 
 using Backend.Dtos;
 using Domain;
+using Repository.Interfaces;
 
 namespace Backend.Controllers
 {
@@ -46,8 +46,27 @@ namespace Backend.Controllers
             }
         }
 
+        [HttpDelete]
+        [Route("Delete/{IdGuiaExterno}")]
+        [Authorize]
+        public async Task<IActionResult> Delete(int IdGuiaExterno){
+            try
+            {
+                _guiaRepository.Delete(IdGuiaExterno);
+                await _uow.CommitAsync();
+
+                return Ok();
+            }
+            catch (System.Exception ex)
+            {
+                _uow.Rollback();
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Falha no banco de dados, detalhes : {ex.Message}");
+            }
+        }
+
         [HttpGet]
         [Route("")]
+        //[Authorize (AuthenticationSchemes = "Bearer")]
         [Authorize]
         public async Task<IActionResult> Get()
         {

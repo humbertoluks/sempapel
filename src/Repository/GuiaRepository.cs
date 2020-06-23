@@ -40,5 +40,12 @@ namespace Repository
                 .Include(m => m.StatusCheckIn)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
+
+        public void Delete(int IdGuiaExterno)
+        {
+            var guias =  _context.Guias.Where(x => x.IdGuiaExterno == IdGuiaExterno);
+
+            _context.Guias.RemoveRange(guias);
+        }
     }
 } 

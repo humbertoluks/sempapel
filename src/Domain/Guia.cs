@@ -4,7 +4,6 @@ namespace Domain
 {
     public class Guia 
     {
-        // [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string PrestadorId { get; set; }
         public int? UnidadeId { get; set; }

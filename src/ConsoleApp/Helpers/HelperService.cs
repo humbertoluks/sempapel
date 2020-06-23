@@ -3,14 +3,16 @@ using System.Threading.Tasks;
 using ConsoleApp.Helpers;
 using ConsoleApp.Helpers.Interfaces;
 using NLog;
-
+using Repository.Interfaces;
 public class HelperService : IHelperService
+{
+    private static ILogger _logger;
+    private readonly IGuiaRepository _guiaRepository;
+    public HelperService(IGuiaRepository guiaRepository)
     {
-        private static ILogger _logger;
-        public HelperService()
-        {
-            SetUpNLog();
-        }
+        SetUpNLog();
+        _guiaRepository = guiaRepository;
+    }
 
     public async Task PerformService(string schedule)
     {
@@ -20,6 +22,7 @@ public class HelperService : IHelperService
             
                 if (!string.IsNullOrWhiteSpace(schedule))
                 {
+                    var guias = await _guiaRepository.GetAsync();
                     //await UploadToAzureBlobStorage(schedule, path, fileName);
                     _logger.Info($"{DateTime.Now}: The PerformService() is finished with {schedule} schedule");
                 }
