@@ -46,7 +46,7 @@ namespace Backend.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpPost]
         [Route("Delete/{IdGuiaExterno}")]
         [Authorize]
         public async Task<IActionResult> Delete(int IdGuiaExterno){
@@ -97,9 +97,51 @@ namespace Backend.Controllers
 
                 return base.Ok(result); 
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha no banco de dados");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Falha no banco de dados, detalhes : {ex.Message}");
+            }
+        }
+
+        [HttpGet("GetByIdExterno/{IdGuiaExterno}")]
+        [Route("")]
+        [Authorize]
+        public async Task<IActionResult> GetByIdExterno(int IdGuiaExterno)
+        {
+            try
+            {
+                var guia = await _guiaRepository.GetByIdExternoAsync(IdGuiaExterno);
+
+                var result = _mapper.Map<GuiaDto>(guia);
+
+                return base.Ok(result); 
+            }
+            catch (System.Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Falha no banco de dados, detalhes : {ex.Message}");
+            }
+        }
+
+        [HttpPut]
+        [Route("")]
+        [Authorize]
+        public async Task<IActionResult> Put(PutGuiaDto putGuia)
+        {
+            try
+            {
+                var guia = await _guiaRepository.GetByIdExternoAsync(putGuia.IdGuiaExterno);
+
+                _mapper.Map<PutGuiaDto, Guia>(putGuia, guia);
+
+                _guiaRepository.Update(guia);
+
+                await _uow.CommitAsync();
+
+                return base.Ok(guia); 
+            }
+            catch (System.Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Falha no banco de dados, detalhes : {ex.Message}");
             }
         }
     }

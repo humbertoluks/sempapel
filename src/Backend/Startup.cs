@@ -64,7 +64,9 @@ namespace Backend
             services.AddTransient<IGuiaRepository, GuiaRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-            services.AddAutoMapper();
+            //services.AddAutoMapper();
+            services.AddAutoMapper(typeof(Startup));
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

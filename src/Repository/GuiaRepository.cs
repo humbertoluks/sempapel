@@ -20,6 +20,11 @@ namespace Repository
             _context.Guias.Add(guia);
         }
 
+         public virtual void Update(Guia guia)
+        {
+            _context.Guias.Attach(guia);
+            _context.Entry(guia).State = EntityState.Modified;
+        }
         public async Task<IEnumerable<Guia>> GetAsync()
         {
             return await _context.Guias
@@ -41,6 +46,15 @@ namespace Repository
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<Guia> GetByIdExternoAsync(int idExterno)
+        {
+            return await _context.Guias
+                .AsNoTracking()
+                .Include(m => m.GuiaStatus)
+                .Include(m => m.GuiaTipo)
+                .Include(m => m.StatusCheckIn)
+                .FirstOrDefaultAsync(x => x.IdGuiaExterno == idExterno);
+        }
         public void Delete(int IdGuiaExterno)
         {
             var guias =  _context.Guias.Where(x => x.IdGuiaExterno == IdGuiaExterno);

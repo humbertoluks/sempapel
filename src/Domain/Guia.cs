@@ -22,5 +22,7 @@ namespace Domain
         public int StatusCheckInId { get; set; }
         public StatusCheckIn StatusCheckIn { get; set; }
         public int IdGuiaExterno{ get; set; }
+        public bool? GuiaCancelada { get; set; }
+        public string NumeroLote { get; set; }
     }
 }

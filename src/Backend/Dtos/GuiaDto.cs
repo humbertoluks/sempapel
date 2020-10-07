@@ -19,5 +19,7 @@ namespace Backend.Dtos
         public GuiaTipoDto GuiaTipo { get; set; }
         public StatusCheckInDto StatusCheckIn { get; set; }
         public int IdGuiaExterno{ get; set; }
+        public bool GuiaCancelada { get; set; }
+        public string NumeroLote { get; set; }
     }
 }
